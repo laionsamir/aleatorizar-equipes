@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Randomizador de Equipes</title>
+
+    <link rel="stylesheet"
+          href="css/bootstrap.min.css">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+
+<body>
+
+    <header class="topbar">
+
+        <div class="topbar-inner">
+
+            <a href="#" class="logo">
+                Equipe
+            </a>
+
+    
+
+        </div>
+
+    </header>
+
+
+
+  
+    <main class="container-principal">
+
+
+        <div class="cabecalho">
+
+            <div class="marca">
+                Randomizador de Equipes
+            </div>
+
+            <h1>
+                Sorteie suas equipes
+            </h1>
+
+            <p class="descricao">
+                Divida pessoas entre duas equipes de forma rápida e aleatória.
+            </p>
+
+        </div>
+
+
+
+
+
+        <div class="campo">
+
+            <label class="label">
+                Modo de divisão
+            </label>
+
+            <div class="modos">
+
+                <label class="modo">
+
+                    <input type="radio"
+                           id="modoAutomatico"
+                           name="modo"
+                           checked>
+
+                    <span>
+                        Automático
+                    </span>
+
+                </label>
+
+
+                <label class="modo">
+
+                    <input type="radio"
+                           id="modoManual"
+                           name="modo">
+
+                    <span>
+                        Manual
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <div id="areaAutomatico">
+
+
+            <div class="campo">
+
+                <label for="pessoas"
+                       class="label">
+
+                    Pessoas
+
+                </label>
+
+                <textarea id="pessoas"
+                          class="campo-input"
+                          rows="4"
+                          placeholder="Digite um nome por linha..."></textarea>
+
+                <div class="ajuda">
+                    A divisão entre Sul e Norte será feita automaticamente.
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+
+        <div id="areaManual"
+             style="display: none;">
+
+
+            <div class="campo">
+
+                <label for="pessoasSul"
+                       class="label">
+
+                    Pessoas — Píer Sul
+
+                </label>
+
+                <textarea id="pessoasSul"
+                          class="campo-input"
+                          rows="6"
+                          placeholder="Digite os nomes do Píer Sul..."></textarea>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="pessoasNorte"
+                       class="label">
+
+                    Pessoas — Píer Norte
+
+                </label>
+
+                <textarea id="pessoasNorte"
+                          class="campo-input"
+                          rows="6"
+                          placeholder="Digite os nomes do Píer Norte..."></textarea>
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="equipes-config">
+
+
+            <div class="campo">
+
+                <label for="quantidadeEquipesSul"
+                       class="label">
+
+                    Equipes — Sul
+
+                </label>
+
+                <input type="number"
+                       id="quantidadeEquipesSul"
+                       class="campo-input"
+                       min="1"
+                       value="3">
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="quantidadeEquipesNorte"
+                       class="label">
+
+                    Equipes — Norte
+
+                </label>
+
+                <input type="number"
+                       id="quantidadeEquipesNorte"
+                       class="campo-input"
+                       min="1"
+                       value="3">
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="acoes">
+
+            <button id="sortear"
+                    type="button">
+
+                Sortear equipes
+
+            </button>
+
+
+            <button id="apagarEquipes"
+                    type="button">
+
+                Apagar equipes
+
+            </button>
+
+        </div>
+
+
+
+
+
+
+        <div id="mensagem"></div>
+
+
+
+
+
+        <section id="resultado"></section>
+
+        <div class="compartilhamento">
+            <button id="compartilharResultado">
+                Compartilhar resultado
+            </button>
+
+            <button id="compartilharWhatsApp">
+                WhatsApp
+            </button>
+        </div>
+    </main>
+
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <script src="js/script.js"></script>
+
+
+</body>
+
+</html>
