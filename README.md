@@ -1,4 +1,4 @@
-# Documentação do Randomizador de Equipes
+# Randomizador de Equipes
 
 Este é um sistema web para realizar sorteios e organizar participantes em equipes.
 
@@ -10,7 +10,7 @@ A seguir estão os endpoints disponíveis na API:
 
 ### Sortear Equipes
 
-- **URL:** `http://localhost:7288/api/Equipes/sortear`
+- **URL:** `https://localhost:7288/api/Equipes/sortear`
 - **Descrição:** Permite realizar o sorteio dos participantes e distribuir as pessoas entre as equipes.
 - **Método HTTP:** POST
 - **Corpo da Requisição:** JSON contendo os dados necessários para realizar o sorteio.
@@ -31,7 +31,7 @@ A seguir estão os endpoints disponíveis na API:
 
 ## Setup do Projeto
 
-1. Clone o repositório do projeto:
+1. Clone o repositório:
 
 ```bash
 git clone https://github.com/laionsamir/aleatorizar-equipes.git
