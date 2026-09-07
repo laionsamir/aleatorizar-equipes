@@ -34,4 +34,4 @@ A seguir estão os endpoints disponíveis na API:
 1. Clone o repositório do projeto:
 
 ```bash
-git clone URL_DO_REPOSITORIO
+git clone https://github.com/laionsamir/aleatorizar-equipes.git
