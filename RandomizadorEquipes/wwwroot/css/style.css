@@ -74,7 +74,7 @@ body {
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
-    padding: 70px 20px 80px;
+    padding: 70px 20px 40px;
 }
 
     .container-principal::before,
@@ -348,7 +348,7 @@ h1 {
 @media (max-width: 768px) {
 
     .container-principal {
-        padding: 45px 20px 60px;
+        padding: 45px 20px 40px;
     }
 
     .topbar-inner {
@@ -395,5 +395,97 @@ h1 {
     #compartilharWhatsApp {
         width: 100%;
         margin-top: 10px;
+    }
+}
+
+.rodape {
+    width: 100%;
+    border-top: 1px solid #303536;
+    padding: 42px 0 18px;
+}
+
+.rodape-conteudo {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+}
+
+.rodape-coluna {
+    min-width: 0;
+}
+
+.rodape-titulo {
+    margin-bottom: 18px;
+    color: #777;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+}
+
+.rodape p {
+    max-width: 430px;
+    margin: 0 0 20px;
+    color: #999e9f;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.rodape-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    background: transparent;
+    color: #a9a5a0;
+    border: 1px solid #303536;
+    border-radius: 6px;
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+    .rodape-link:hover {
+        color: #ffffff;
+        border-color: #4b4c50;
+        background: #151718;
+    }
+
+.rodape-final {
+    width: 100%;
+    max-width: 900px;
+    margin: 32px auto 0;
+    padding: 18px 20px 0;
+    border-top: 1px solid #252829;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #686e70;
+    font-size: 11px;
+}
+
+
+/* ==============================
+   RODAPÉ — CELULAR
+   ============================== */
+
+@media (max-width: 768px) {
+
+    .rodape {
+        padding-top: 35px;
+    }
+
+    .rodape-conteudo {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .rodape-final {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
     }
 }
