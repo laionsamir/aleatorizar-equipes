@@ -1,4 +1,4 @@
-﻿const botao = document.getElementById("sortear");
+const botao = document.getElementById("sortear");
 
 const botaoApagar =
     document.getElementById("apagarEquipes");
@@ -574,7 +574,7 @@ function gerarTextoCompartilhamento() {
             if (titulo) {
 
                 texto +=
-                    `📍 ${titulo.innerText.toUpperCase()}\n\n`;
+                    ` ${titulo.innerText.toUpperCase()}\n\n`;
 
             }
 
