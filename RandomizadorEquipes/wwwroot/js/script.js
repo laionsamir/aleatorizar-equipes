@@ -574,7 +574,7 @@ function gerarTextoCompartilhamento() {
             if (titulo) {
 
                 texto +=
-                    ` ${titulo.innerText.toUpperCase()}\n\n`;
+                    `${titulo.innerText.toUpperCase()}\n\n`;
 
             }
 
