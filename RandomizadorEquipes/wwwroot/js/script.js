@@ -557,8 +557,13 @@ botaoWhatsApp.addEventListener(
 
 function gerarTextoCompartilhamento() {
 
+    const data = new Date();
+
+    const dataFormatada =
+        data.toLocaleDateString("pt-BR");
+
     let texto =
-        "Boa tarde a todos. Segue a programação do dia  \n\n";
+        `Boa tarde a todos. Segue a programação do dia ${dataFormatada}\n\n`;
 
     const blocos =
         resultado.querySelectorAll(".bloco");
