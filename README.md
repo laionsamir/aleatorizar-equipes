@@ -1,6 +1,46 @@
 # Documentação do Randomizador de Equipes
 
-Este é um sistema web desenvolvido para realizar a divisão de pessoas em equipes de forma rápida e aleatória, com opções de organização manual e automática.
+Este é um sistema web desenvolvido para auxiliar na organização de equipes e na consulta de escalas de trabalho.
+
+A aplicação permite realizar a divisão de pessoas em equipes de forma automática ou manual e também possui um leitor de escalas em PDF, capaz de interpretar os dados da escala e identificar os funcionários que estão trabalhando em uma determinada data.
+
+## Funcionalidades
+
+### Randomizador de Equipes
+
+Permite dividir uma lista de pessoas entre equipes de forma rápida e aleatória.
+
+O sistema possui dois modos de divisão:
+
+* **Automático:** realiza o sorteio e distribui os participantes entre as equipes.
+* **Manual:** permite organizar os participantes manualmente.
+
+As equipes podem ser organizadas entre:
+
+* Sul
+* Norte
+
+Também é possível definir a quantidade de equipes para cada região.
+
+### Leitor de Escala em PDF
+
+O sistema também possui uma funcionalidade para leitura de escalas em formato PDF.
+
+A escala é utilizada como fonte de dados para identificar os funcionários e suas respectivas situações em cada dia.
+
+O leitor utiliza a biblioteca **PdfPig** para extrair informações do documento PDF, incluindo textos, posições e códigos presentes na escala.
+
+A partir dessas informações, o sistema consegue interpretar os dias da escala e identificar a situação de cada funcionário.
+
+As situações utilizadas na escala são:
+
+* **F:** Folga
+* **FA:** Folga automática
+* **L:** Férias
+* **J:** Afastado
+* **Sem código:** Funcionário trabalhando
+
+Dessa forma, é possível consultar os funcionários que estão trabalhando em uma determinada data sem precisar analisar manualmente toda a escala.
 
 ## Endpoints da API
 
@@ -14,39 +54,26 @@ A seguir estão os endpoints disponíveis na API:
 * **Corpo da Requisição:** JSON contendo a lista de pessoas e as configurações da divisão.
 * **Retorno:** Retorna as equipes geradas com seus respectivos participantes.
 
-### Testar a API
+### Leitura da Escala
 
-* **URL:** `http://localhost:5000/api/Equipes`
-* **Descrição:** Endpoint utilizado para verificar o funcionamento da API.
+* **URL:** `http://localhost:5000/api/...`
+* **Descrição:** Realiza a leitura das informações da escala em PDF e interpreta os dados dos funcionários e seus respectivos dias.
+* **Método HTTP:** GET/POST
+* **Retorno:** Retorna os dados extraídos e processados da escala.
+
+### Consulta de Funcionários por Data
+
+* **URL:** `http://localhost:5000/api/...`
+* **Descrição:** Consulta os funcionários que estão trabalhando em uma determinada data, considerando os códigos e situações presentes na escala.
 * **Método HTTP:** GET
-* **Retorno:** Retorna uma resposta da API.
+* **Parâmetro:** Data da consulta.
+* **Retorno:** Retorna a lista de funcionários que estão trabalhando na data informada.
 
-## Funcionalidades
+## Compartilhamento
 
-### Divisão Automática
+Após realizar a divisão das equipes, o resultado pode ser compartilhado diretamente pela aplicação.
 
-Permite informar uma lista de pessoas e realizar automaticamente a divisão entre as equipes.
-
-O sistema realiza o sorteio de forma aleatória, distribuindo os participantes conforme a quantidade de equipes definida.
-
-### Divisão Manual
-
-Permite realizar a organização dos participantes manualmente, possibilitando ao usuário definir em qual equipe cada pessoa ficará.
-
-### Organização por Equipes
-
-As equipes são organizadas entre:
-
-* Sul
-* Norte
-
-O usuário pode definir a quantidade de equipes para cada região.
-
-### Compartilhamento
-
-Após realizar a divisão, o resultado pode ser compartilhado diretamente pela aplicação.
-
-O sistema gera uma mensagem contendo a programação das equipes e a data atual.
+A programação gerada contém a data atual e a relação dos participantes organizados em suas respectivas equipes.
 
 Também é possível compartilhar o resultado diretamente pelo WhatsApp.
 
@@ -66,7 +93,7 @@ cd aleatorizar-equipes
 
 3. Abra o projeto no Visual Studio.
 
-4. Restaure as dependências do projeto:
+4. Restaure as dependências:
 
 ```bash
 dotnet restore
@@ -89,6 +116,7 @@ dotnet run
 * CSS
 * JavaScript
 * Bootstrap
+* PdfPig
 
 ## Estrutura do Projeto
 
@@ -107,9 +135,11 @@ RandomizadorEquipes/
 └── RandomizadorEquipes.csproj
 ```
 
+A funcionalidade de leitura de escala utiliza serviços responsáveis por processar o PDF, extrair os dados e transformar as informações da escala em objetos utilizados pela aplicação.
+
 ## Aplicação Online
 
-A aplicação está hospedada na Railway e pode ser acessada através da versão publicada do projeto.
+A aplicação está hospedada na Railway.
 
 ## Autor
 
@@ -117,4 +147,4 @@ Este projeto foi desenvolvido por [Laion Samir](https://github.com/laionsamir).
 
 ---
 
-**Observação:** A porta utilizada pela aplicação pode variar conforme a configuração do ambiente. Utilize a URL apresentada pelo ASP.NET Core ao executar o projeto localmente.
+**Observação:** Os endpoints e portas apresentados acima devem ser ajustados conforme a configuração atual da aplicação.
