@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<SorteioService>();
+builder.Services.AddScoped<EscalaService>();
 
 // Configuracao do Swagger
 builder.Services.AddEndpointsApiExplorer();

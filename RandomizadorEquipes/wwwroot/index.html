@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -35,7 +35,14 @@
                 Equipes
             </a>
 
-
+            <nav class="topbar-nav">
+                <button type="button" class="btn-aba active" id="btnAbaEscala">
+                    <i class="bi bi-calendar-check"></i> Escala do Dia
+                </button>
+                <button type="button" class="btn-aba" id="btnAbaSorteador">
+                    <i class="bi bi-shuffle"></i> Sorteador de Equipes
+                </button>
+            </nav>
 
         </div>
 
@@ -46,22 +53,106 @@
 
     <main class="container-principal">
 
+        <!-- ==============================================
+             TELA 1: LEITOR DE ESCALA
+             ============================================== -->
+        <section id="secaoEscala">
 
-        <div class="cabecalho">
+            <div class="cabecalho">
 
-            <div class="marca">
-                Randomizador de Equipes
+                <div class="marca">
+                    Leitor de Escala
+                </div>
+
+                <h1>
+                    Quem trabalha hoje?
+                </h1>
+
+                <p class="descricao">
+                    Consulte a escala do dia para ver os colaboradores em serviço e enviá-los diretamente para a divisão de equipes.
+                </p>
+
             </div>
 
-            <h1>
-                Sorteie suas equipes
-            </h1>
+            <!-- Painel de Consulta da Escala -->
+            <div class="painel-escala">
+                <div class="linha-controles-escala">
+                    <div class="campo campo-data-escala">
+                        <label for="dataEscala" class="label">
+                            Data da escala
+                        </label>
+                        <input type="date" id="dataEscala" class="campo-input">
+                    </div>
+                    <button type="button" id="consultarEscala" class="btn-consultar-escala">
+                        <i class="bi bi-search"></i>
+                        <span>Consultar escala</span>
+                    </button>
+                </div>
+                <div id="mensagemEscala" class="mensagem-escala"></div>
+            </div>
 
-            <p class="descricao">
-                Divida pessoas entre duas equipes de forma rápida e aleatória.
-            </p>
+            <!-- Container com Resultado da Escala -->
+            <div id="containerResultadoEscala" style="display: none;">
 
-        </div>
+                <div class="escala-resumo-barra">
+                    <div class="resumo-titulo-grupo">
+                        <h2 id="escalaTituloData" class="resumo-data-titulo">Escala</h2>
+                        <span id="escalaContador" class="badge-escala-contador">0 trabalhando</span>
+                    </div>
+
+                    <div class="escala-filtros">
+                        <input type="text" id="filtroNomeEscala" class="campo-input input-filtro-escala" placeholder="Filtrar por nome...">
+                        <select id="filtroHorarioEscala" class="campo-input select-filtro-escala">
+                            <option value="">Todos os horários</option>
+                        </select>
+                        <button type="button" id="btnMarcarTodos" class="btn-filtro-acao">Marcar todos</button>
+                        <button type="button" id="btnDesmarcarTodos" class="btn-filtro-acao">Desmarcar todos</button>
+                    </div>
+                </div>
+
+                <!-- Grade de Colaboradores com Checkbox -->
+                <div id="listaFuncionariosEscala" class="grid-funcionarios"></div>
+
+                <!-- Barra de Ação para Enviar para o Sorteador -->
+                <div class="barra-transferencia">
+                    <div class="transferencia-texto">
+                        <span id="contadorSelecionados" class="numero-selecionados">0</span> colaboradores selecionados
+                    </div>
+                    <button type="button" id="btnEnviarParaSorteador" class="btn-enviar-sorteador">
+                        <i class="bi bi-arrow-right-circle-fill"></i>
+                        <span>Enviar para o Sorteador</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ==============================================
+             TELA 2: SORTEADOR DE EQUIPES
+             ============================================== -->
+        <section id="secaoSorteador" style="display: none;">
+
+            <div id="alertaImportacao" class="alerta-importacao" style="display: none;">
+                <i class="bi bi-check-circle-fill"></i>
+                <span id="textoAlertaImportacao"></span>
+            </div>
+
+            <div class="cabecalho">
+
+                <div class="marca">
+                    Randomizador de Equipes
+                </div>
+
+                <h1>
+                    Sorteie suas equipes
+                </h1>
+
+                <p class="descricao">
+                    Divida pessoas entre duas equipes de forma rápida e aleatória.
+                </p>
+
+            </div>
 
 
 
@@ -114,12 +205,14 @@
 
             <div class="campo">
 
-                <label for="pessoas"
-                       class="label">
-
-                    Pessoas
-
-                </label>
+                <div class="label-com-atalho">
+                    <label for="pessoas" class="label" style="margin-bottom: 0;">
+                        Pessoas
+                    </label>
+                    <button type="button" id="btnAtalhoEscala" class="link-atalho-escala">
+                        <i class="bi bi-calendar-check"></i> Importar da Escala
+                    </button>
+                </div>
 
                 <textarea id="pessoas"
                           class="campo-input"
@@ -220,6 +313,9 @@
 
             </div>
 
+            <div class="ajuda" style="grid-column: 1 / -1; text-align: center; margin-top: 4px;">
+                Cada equipe deve ter no mínimo 2 pessoas.
+            </div>
 
         </div>
 
@@ -259,6 +355,7 @@
 
 
         <section id="resultado"></section>
+        </section>
     </main>
 
     <footer class="rodape">

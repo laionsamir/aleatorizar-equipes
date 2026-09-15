@@ -1,4 +1,4 @@
-﻿using RandomizadorEquipes.Models;
+using RandomizadorEquipes.Models;
 
 namespace RandomizadorEquipes.Services;
 
@@ -32,10 +32,18 @@ public class SorteioService
             );
         }
 
-        if (quantidadeEquipes > pessoas.Count)
+        if (quantidadeEquipes * 2 > pessoas.Count)
         {
             throw new ArgumentException(
-                "A quantidade de equipes não pode ser maior que a quantidade de pessoas."
+                $"Cada equipe deve ter no mínimo 2 pessoas. Para {quantidadeEquipes} equipes, são necessárias pelo menos {quantidadeEquipes * 2} pessoas."
+            );
+        }
+
+        if (pessoas.Count > quantidadeEquipes * 3)
+        {
+            var minimoEquipes = (int)Math.Ceiling(pessoas.Count / 3.0);
+            throw new ArgumentException(
+                $"Cada equipe pode ter no máximo 3 pessoas. Para {pessoas.Count} pessoas, crie pelo menos {minimoEquipes} equipes."
             );
         }
 
@@ -110,10 +118,10 @@ public class SorteioService
             request.Pessoas
         );
 
-        if (pessoas.Count < 2)
+        if (pessoas.Count < 4)
         {
             throw new ArgumentException(
-                "No modo automático são necessárias pelo menos duas pessoas."
+                "No modo automático são necessárias pelo menos 4 pessoas para formar equipes com no mínimo 2 integrantes cada."
             );
         }
 
@@ -142,24 +150,46 @@ public class SorteioService
             }
         }
 
-        // Verifica se há pessoas suficientes em cada bloco.
+        // Verifica se cada bloco tem quantidade suficiente para garantir entre 2 e 3 pessoas por equipe.
         if (
             pessoasSul.Count <
-            request.QuantidadeEquipesSul
+            request.QuantidadeEquipesSul * 2
         )
         {
             throw new ArgumentException(
-                "Não há pessoas suficientes para as equipes do Sul."
+                $"O Píer Sul recebeu {pessoasSul.Count} pessoas, mas precisa de pelo menos {request.QuantidadeEquipesSul * 2} para {request.QuantidadeEquipesSul} equipes com no mínimo 2 pessoas cada."
+            );
+        }
+
+        if (
+            pessoasSul.Count >
+            request.QuantidadeEquipesSul * 3
+        )
+        {
+            var minimoSul = (int)Math.Ceiling(pessoasSul.Count / 3.0);
+            throw new ArgumentException(
+                $"O Píer Sul recebeu {pessoasSul.Count} pessoas. Para respeitar o máximo de 3 por equipe, configure pelo menos {minimoSul} equipes no Sul."
             );
         }
 
         if (
             pessoasNorte.Count <
-            request.QuantidadeEquipesNorte
+            request.QuantidadeEquipesNorte * 2
         )
         {
             throw new ArgumentException(
-                "Não há pessoas suficientes para as equipes do Norte."
+                $"O Píer Norte recebeu {pessoasNorte.Count} pessoas, mas precisa de pelo menos {request.QuantidadeEquipesNorte * 2} para {request.QuantidadeEquipesNorte} equipes com no mínimo 2 pessoas cada."
+            );
+        }
+
+        if (
+            pessoasNorte.Count >
+            request.QuantidadeEquipesNorte * 3
+        )
+        {
+            var minimoNorte = (int)Math.Ceiling(pessoasNorte.Count / 3.0);
+            throw new ArgumentException(
+                $"O Píer Norte recebeu {pessoasNorte.Count} pessoas. Para respeitar o máximo de 3 por equipe, configure pelo menos {minimoNorte} equipes no Norte."
             );
         }
 
@@ -219,22 +249,44 @@ public class SorteioService
         }
 
         if (
-            request.QuantidadeEquipesSul >
+            request.QuantidadeEquipesSul * 2 >
             pessoasSul.Count
         )
         {
             throw new ArgumentException(
-                "Há mais equipes do que pessoas no Sul."
+                $"O Píer Sul precisa de pelo menos {request.QuantidadeEquipesSul * 2} pessoas para formar {request.QuantidadeEquipesSul} equipes com no mínimo 2 pessoas cada."
             );
         }
 
         if (
-            request.QuantidadeEquipesNorte >
+            pessoasSul.Count >
+            request.QuantidadeEquipesSul * 3
+        )
+        {
+            var minimoSul = (int)Math.Ceiling(pessoasSul.Count / 3.0);
+            throw new ArgumentException(
+                $"O Píer Sul tem {pessoasSul.Count} pessoas. Para respeitar o máximo de 3 por equipe, configure pelo menos {minimoSul} equipes no Sul."
+            );
+        }
+
+        if (
+            request.QuantidadeEquipesNorte * 2 >
             pessoasNorte.Count
         )
         {
             throw new ArgumentException(
-                "Há mais equipes do que pessoas no Norte."
+                $"O Píer Norte precisa de pelo menos {request.QuantidadeEquipesNorte * 2} pessoas para formar {request.QuantidadeEquipesNorte} equipes com no mínimo 2 pessoas cada."
+            );
+        }
+
+        if (
+            pessoasNorte.Count >
+            request.QuantidadeEquipesNorte * 3
+        )
+        {
+            var minimoNorte = (int)Math.Ceiling(pessoasNorte.Count / 3.0);
+            throw new ArgumentException(
+                $"O Píer Norte tem {pessoasNorte.Count} pessoas. Para respeitar o máximo de 3 por equipe, configure pelo menos {minimoNorte} equipes no Norte."
             );
         }
 
@@ -303,13 +355,23 @@ public class SorteioService
         }
 
         if (
-            quantidadeSul +
-            quantidadeNorte >
+            (quantidadeSul + quantidadeNorte) * 2 >
             quantidadePessoas
         )
         {
             throw new ArgumentException(
-                "Não há pessoas suficientes para todas as equipes."
+                $"Cada equipe precisa de no mínimo 2 pessoas. Para {quantidadeSul + quantidadeNorte} equipes no total, são necessárias pelo menos {(quantidadeSul + quantidadeNorte) * 2} pessoas."
+            );
+        }
+
+        if (
+            quantidadePessoas >
+            (quantidadeSul + quantidadeNorte) * 3
+        )
+        {
+            var minimoTotal = (int)Math.Ceiling(quantidadePessoas / 3.0);
+            throw new ArgumentException(
+                $"Cada equipe pode ter no máximo 3 pessoas. Para {quantidadePessoas} pessoas no total, configure pelo menos {minimoTotal} equipes somando Sul e Norte."
             );
         }
     }
