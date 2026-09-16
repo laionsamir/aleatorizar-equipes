@@ -86,9 +86,9 @@ public class SorteioService
     }
 
 
-   
 
-    
+
+
     // Realiza o sorteio dos blocos Sul e Norte.
     public ResultadoSorteio SortearPorBlocos(
         SorteioRequest request)
@@ -102,7 +102,7 @@ public class SorteioService
     }
 
 
-    
+
     // Divide automaticamente as pessoas entre Sul e Norte.
     private ResultadoSorteio SortearAutomatico(
         SorteioRequest request)
@@ -134,64 +134,39 @@ public class SorteioService
         // Embaralha antes de dividir os blocos.
         pessoas = Embaralhar(pessoas);
 
-        var pessoasSul = new List<string>();
-        var pessoasNorte = new List<string>();
+        // Não é necessário equilibrar a quantidade de pessoas entre os píeres.
+        // A única regra é respeitar a capacidade das equipes: de 2 a 3 pessoas por equipe.
+        var minimoSul = request.QuantidadeEquipesSul * 2;
+        var maximoSul = request.QuantidadeEquipesSul * 3;
+        var minimoNorte = request.QuantidadeEquipesNorte * 2;
+        var maximoNorte = request.QuantidadeEquipesNorte * 3;
 
-        // Divide as pessoas entre Sul e Norte.
-        for (int i = 0; i < pessoas.Count; i++)
+        // Começa colocando no Sul o mínimo necessário.
+        // Se o restante ultrapassar a capacidade máxima do Norte,
+        // transfere a quantidade excedente para o Sul.
+        var quantidadeSul = minimoSul;
+
+        if (pessoas.Count - quantidadeSul > maximoNorte)
         {
-            if (i % 2 == 0)
-            {
-                pessoasSul.Add(pessoas[i]);
-            }
-            else
-            {
-                pessoasNorte.Add(pessoas[i]);
-            }
+            quantidadeSul = pessoas.Count - maximoNorte;
         }
 
-        // Verifica se cada bloco tem quantidade suficiente para garantir entre 2 e 3 pessoas por equipe.
-        if (
-            pessoasSul.Count <
-            request.QuantidadeEquipesSul * 2
-        )
+        if (quantidadeSul > maximoSul ||
+            pessoas.Count - quantidadeSul < minimoNorte ||
+            pessoas.Count - quantidadeSul > maximoNorte)
         {
             throw new ArgumentException(
-                $"O Píer Sul recebeu {pessoasSul.Count} pessoas, mas precisa de pelo menos {request.QuantidadeEquipesSul * 2} para {request.QuantidadeEquipesSul} equipes com no mínimo 2 pessoas cada."
+                "Não é possível distribuir as pessoas entre os píeres respeitando o mínimo de 2 e o máximo de 3 pessoas por equipe com a quantidade de equipes informada."
             );
         }
 
-        if (
-            pessoasSul.Count >
-            request.QuantidadeEquipesSul * 3
-        )
-        {
-            var minimoSul = (int)Math.Ceiling(pessoasSul.Count / 3.0);
-            throw new ArgumentException(
-                $"O Píer Sul recebeu {pessoasSul.Count} pessoas. Para respeitar o máximo de 3 por equipe, configure pelo menos {minimoSul} equipes no Sul."
-            );
-        }
+        var pessoasSul = pessoas
+            .Take(quantidadeSul)
+            .ToList();
 
-        if (
-            pessoasNorte.Count <
-            request.QuantidadeEquipesNorte * 2
-        )
-        {
-            throw new ArgumentException(
-                $"O Píer Norte recebeu {pessoasNorte.Count} pessoas, mas precisa de pelo menos {request.QuantidadeEquipesNorte * 2} para {request.QuantidadeEquipesNorte} equipes com no mínimo 2 pessoas cada."
-            );
-        }
-
-        if (
-            pessoasNorte.Count >
-            request.QuantidadeEquipesNorte * 3
-        )
-        {
-            var minimoNorte = (int)Math.Ceiling(pessoasNorte.Count / 3.0);
-            throw new ArgumentException(
-                $"O Píer Norte recebeu {pessoasNorte.Count} pessoas. Para respeitar o máximo de 3 por equipe, configure pelo menos {minimoNorte} equipes no Norte."
-            );
-        }
+        var pessoasNorte = pessoas
+            .Skip(quantidadeSul)
+            .ToList();
 
         return new ResultadoSorteio
         {
@@ -208,7 +183,7 @@ public class SorteioService
     }
 
 
-    
+
 
     // Realiza o sorteio usando listas separadas para Sul e Norte.
     private ResultadoSorteio SortearManual(
@@ -233,6 +208,20 @@ public class SorteioService
 
         var pessoasNorte =
             LimparPessoas(request.PessoasNorte);
+
+        if (request.QuantidadeEquipesSul < 2 || request.QuantidadeEquipesSul > 4)
+        {
+            throw new ArgumentException(
+                "A quantidade de equipes do Sul deve estar entre 2 e 4."
+            );
+        }
+
+        if (request.QuantidadeEquipesNorte < 2 || request.QuantidadeEquipesNorte > 4)
+        {
+            throw new ArgumentException(
+                "A quantidade de equipes do Norte deve estar entre 2 e 4."
+            );
+        }
 
         if (pessoasSul.Count == 0)
         {
@@ -306,7 +295,7 @@ public class SorteioService
 
 
 
-   
+
     // Remove espaços e nomes vazios.
     private List<string> LimparPessoas(
         List<string> pessoas)
@@ -320,7 +309,7 @@ public class SorteioService
     }
 
 
-    
+
     // Embaralha a lista de pessoas.
     private List<string> Embaralhar(
         List<string> pessoas)
@@ -333,24 +322,24 @@ public class SorteioService
     }
 
 
-   
+
     // Valida a quantidade de equipes.
     private void ValidarQuantidadeEquipes(
         int quantidadePessoas,
         int quantidadeSul,
         int quantidadeNorte)
     {
-        if (quantidadeSul <= 0)
+        if (quantidadeSul < 2 || quantidadeSul > 4)
         {
             throw new ArgumentException(
-                "A quantidade de equipes do Sul deve ser maior que zero."
+                "A quantidade de equipes do Sul deve estar entre 2 e 4."
             );
         }
 
-        if (quantidadeNorte <= 0)
+        if (quantidadeNorte < 2 || quantidadeNorte > 4)
         {
             throw new ArgumentException(
-                "A quantidade de equipes do Norte deve ser maior que zero."
+                "A quantidade de equipes do Norte deve estar entre 2 e 4."
             );
         }
 
